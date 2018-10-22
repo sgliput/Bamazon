@@ -1,0 +1,29 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "An Amazon-like app that offers products for sale to customers, who can place orders and buy them.",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgliput/Bamazon.git"
+  },
+  "keywords": [
+    "customer",
+    "sql",
+    "inventory",
+    "database"
+  ],
+  "author": "Sam Liput",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sgliput/Bamazon/issues"
+  },
+  "homepage": "https://github.com/sgliput/Bamazon#readme",
+  "dependencies": {
+    "inquirer": "^6.2.0",
+    "mysql": "^2.16.0"
+  }
+}
