@@ -44,8 +44,27 @@ inquirer
                 }
                 console.log("\n");
             } else if (answer.options === "Add to Inventory") {
+                inquirer
+                    .prompt({
+                        name: "options",
+                        type: "list",
+                        message: "What would you like to do?",
+                        choices: function () {
+                            var optionArray = [];
+                            optionArray.push(new inquirer.Separator());
+                            for (var k = 0; k < res.length; k++) {
+                                optionArray.push(res[k].product_name);
+                            }
+                            return optionArray;
+                        }
+                    })
+                    .then(function (answer) {
+                        if(answer.options !== "----------------"){
+                        console.log(answer.options);
+                        };
 
-            }
+                    });
+                }
 
         });
         connection.end();
