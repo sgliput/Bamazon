@@ -34,6 +34,7 @@ inquirer
                     console.log(`   ID #: ${res[i].item_id} || Product: ${res[i].product_name} || Price: ${res[i].price} || Quantity: ${res[i].stock_quantity}`);
                 }
                 console.log("\n");
+                connection.end();
 
             } else if (answer.options === "View Low Inventory") {
                 console.log("\nProducts with Low Inventory (5 or Less):\n");
@@ -43,9 +44,10 @@ inquirer
                     }
                 }
                 console.log("\n");
+                connection.end();
             } else if (answer.options === "Add to Inventory") {
                 inquirer
-                    .prompt({
+                    .prompt([{
                         name: "options",
                         type: "list",
                         message: "What would you like to do?",
@@ -57,16 +59,105 @@ inquirer
                             }
                             return optionArray;
                         }
-                    })
+                    },
+                    {
+                        name: "howMuch",
+                        type: "input",
+                        message: "How many would you like to add?"
+                    }
+                    ])
                     .then(function (answer) {
-                        if(answer.options !== "----------------"){
-                        console.log(answer.options);
-                        };
+                        var product = answer.options;
+                        var howMuch = parseInt(answer.howMuch);
 
+                        if (!isNaN(howMuch)) {
+                            for (var l = 0; l < res.length; l++) {
+                                if (product === res[l].product_name) {
+                                    var id = res[l].item_id;
+                                }
+                            }
+                            console.log(id);
+
+                            connection.query("UPDATE products SET ? WHERE ?",
+                                [
+                                    {
+                                        stock_quantity: (res[id - 1].stock_quantity + howMuch)
+                                    },
+                                    {
+                                        product_name: product
+                                    }
+                                ], function (err) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        console.log(`You added ${howMuch} ${product}(s)`);
+                                        connection.end();
+                                    }
+
+
+                                });
+                        } else {
+                            console.log("Improper input!");
+                            connection.end();
+                        }
+                    })
+            } else if (answer.options === "Add New Product") {
+                inquirer
+                    .prompt([{
+                        name: "insertName",
+                        type: "input",
+                        message: "Type the name of the product you wish to add:"
+                    },
+                    {
+                        name: "insertDept",
+                        type: "input",
+                        message: "Type the department the product is under:"
+                    },
+                    {
+                        name: "insertPrice",
+                        type: "input",
+                        message: "Type the typical price of the product:"
+                    },
+                    {
+                        name: "insertStock",
+                        type: "input",
+                        message: "Type the initial stock quantity of the product:"
+                    }
+                    ])
+                    .then(function (answer) {
+                        if (!isNaN(answer.insertName)) {
+                            console.log("Improper product name.");
+                        } else if (!isNaN(answer.insertDept)) {
+                            console.log("Improper department name.");
+                        } else if (isNaN(answer.insertPrice)) {
+                            console.log("Price must be a number.");
+                        } else if (isNaN(answer.insertStock)) {
+                            console.log("Stock quantity must be a number.");
+                        } else {
+                            connection.query("INSERT INTO products SET ?",
+                                {
+                                    product_name: answer.insertName,
+                                    department_name: answer.insertDept,
+                                    price: answer.insertPrice,
+                                    stock_quantity: answer.insertStock
+                                },
+                                function (err) {
+                                    if (err) throw err;
+                                    console.log("\nYou added the following products to the Bamazon database:");
+                                    console.log(`
+                                    Product: ${answer.insertName}
+                                    Department: ${answer.insertDept}
+                                    Price: ${answer.insertPrice}
+                                    Stock: ${answer.insertStock}`);
+                                }
+                            )
+                        }
+                        connection.end();
                     });
-                }
+
+            }
 
         });
-        connection.end();
+
 
     });

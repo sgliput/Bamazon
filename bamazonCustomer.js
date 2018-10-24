@@ -42,13 +42,16 @@ connection.query("SELECT * FROM products", function (err, res) {
             if(isNaN(amount) || isNaN(id)){
                 console.log("Improper input. Please try again.");
             } else if (res[id - 1].stock_quantity > amount) {
-                var totalAmount = res[id - 1].price * amount;
+                var totalAmount = (res[id - 1].price * amount).toFixed(2);
                 console.log(`Fulfilling your order for ${amount} ${res[id - 1].product_name}(s)...`);
                 
-                connection.query("UPDATE products SET ? WHERE ?",
+                connection.query("UPDATE products SET ?, ? WHERE ?",
                     [
                         {
                             stock_quantity: (res[id - 1].stock_quantity - amount)
+                        },
+                        {
+                            product_sales: res[id-1].product_sales + (res[id-1].price * amount)
                         },
                         {
                             item_id: id

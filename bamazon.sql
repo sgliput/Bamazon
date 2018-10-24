@@ -8,7 +8,7 @@ CREATE TABLE products (
   product_name VARCHAR(100) NOT NULL,
   department_name VARCHAR(100) NOT NULL,
   price DECIMAL(7,2) NOT NULL,
-  stock_quantity INT NOT NULL
+  stock_quantity INT NOT NULL,
 );
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
@@ -40,3 +40,54 @@ VALUES ("Rachael Ray Cookbook Set", "Books", 64.99, 232);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Laminated Two-Dollar Bill", "Miscellaneous", 4.99, 2);
+
+____________________________________________
+
+ALTER TABLE products
+ADD COLUMN product_sales DECIMAL(10,2);
+
+_____________________________________________
+
+USE bamazon;
+
+CREATE TABLE departments (
+  department_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  department_name VARCHAR(100) NOT NULL,
+  over_head_costs DECIMAL(7,2) NOT NULL
+);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Books", 4000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Electronics", 5000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Dishware", 2000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Cookware", 3000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Miscellaneous", 4500);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Clothing", 2000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Lawn and Gardening", 5000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Art", 1500);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Home", 2500);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Automobile", 4200);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Appliances", 3800);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Toys", 250);
