@@ -24,6 +24,7 @@
   "homepage": "https://github.com/sgliput/Bamazon#readme",
   "dependencies": {
     "inquirer": "^6.2.0",
+    "markdown-table": "^1.1.2",
     "mysql": "^2.16.0"
   }
 }

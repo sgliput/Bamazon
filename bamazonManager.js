@@ -76,7 +76,6 @@ inquirer
                                     var id = res[l].item_id;
                                 }
                             }
-                            console.log(id);
 
                             connection.query("UPDATE products SET ? WHERE ?",
                                 [
@@ -90,7 +89,7 @@ inquirer
                                     if (err) {
                                         console.log(err);
                                     } else {
-                                        console.log(`You added ${howMuch} ${product}(s)`);
+                                        console.log(`You added ${howMuch} ${product}(s).`);
                                         connection.end();
                                     }
 
@@ -102,6 +101,14 @@ inquirer
                         }
                     })
             } else if (answer.options === "Add New Product") {
+                connection.query("SELECT * FROM departments", function (err, res2) {
+                    if (err) throw err;
+                    var departments = [];
+                    departments.push(new inquirer.Separator());
+                    for(var k = 0; k < res2.length; k++){
+                        departments.push(res2[k].department_name);
+                    }
+                    
                 inquirer
                     .prompt([{
                         name: "insertName",
@@ -110,8 +117,9 @@ inquirer
                     },
                     {
                         name: "insertDept",
-                        type: "input",
-                        message: "Type the department the product is under:"
+                        type: "list",
+                        message: "Choose the department the product is under:",
+                        choices: departments
                     },
                     {
                         name: "insertPrice",
@@ -143,7 +151,7 @@ inquirer
                                 },
                                 function (err) {
                                     if (err) throw err;
-                                    console.log("\nYou added the following products to the Bamazon database:");
+                                    console.log("\nYou added the following product to the Bamazon database:");
                                     console.log(`
                                     Product: ${answer.insertName}
                                     Department: ${answer.insertDept}
@@ -154,7 +162,7 @@ inquirer
                         }
                         connection.end();
                     });
-
+                });
             }
 
         });
