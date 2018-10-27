@@ -19,7 +19,7 @@ connection.query("SELECT * FROM products", function (err, res) {
     if (err) throw err;
     console.log("\n");
     for (var i = 0; i < res.length; i++) {
-        console.log(`   ID #: ${res[i].item_id} || Product: ${res[i].product_name} || Price: ${res[i].price}`);
+        console.log(`   ID #: ${res[i].item_id} || Product: ${res[i].product_name} || Price: $${res[i].price}`);
     }
     console.log("\n");
     inquirer
@@ -40,7 +40,11 @@ connection.query("SELECT * FROM products", function (err, res) {
             var amount = answer.askAmount;
             
             if(isNaN(amount) || isNaN(id)){
-                console.log("Improper input. Please try again.");
+                console.log("\nImproper input. Please try again.");
+                connection.end();
+            } else if(id > res.length){
+                console.log("\nYou must choose from the products listed.")
+                connection.end();
             } else if (res[id - 1].stock_quantity > amount) {
                 var totalAmount = (res[id - 1].price * amount).toFixed(2);
                 console.log(`Fulfilling your order for ${amount} ${res[id - 1].product_name}(s)...`);

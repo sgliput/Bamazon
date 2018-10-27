@@ -1,15 +1,4 @@
-DROP DATABASE IF EXISTS bamazon;
-CREATE database bamazon;
-
 USE bamazon;
-
-CREATE TABLE products (
-    item_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  product_name VARCHAR(100) NOT NULL,
-  department_name VARCHAR(100) NOT NULL,
-  price DECIMAL(7,2) NOT NULL,
-  stock_quantity INT NOT NULL,
-);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Lefon Portable Radio", "Electronics", 14.99, 500);
@@ -41,20 +30,10 @@ VALUES ("Rachael Ray Cookbook Set", "Books", 64.99, 232);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Laminated Two-Dollar Bill", "Miscellaneous", 4.99, 2);
 
-____________________________________________
-
-ALTER TABLE products
-ADD COLUMN product_sales DECIMAL(10,2);
 
 _____________________________________________
 
 USE bamazon;
-
-CREATE TABLE departments (
-  department_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  department_name VARCHAR(100) NOT NULL,
-  over_head_costs DECIMAL(7,2) NOT NULL
-);
 
 INSERT INTO departments (department_name, over_head_costs)
 VALUES ("Books", 4000);

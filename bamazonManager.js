@@ -31,7 +31,7 @@ inquirer
             if (answer.options === "View Products for Sale") {
                 console.log("\nAll Products:\n");
                 for (var i = 0; i < res.length; i++) {
-                    console.log(`   ID #: ${res[i].item_id} || Product: ${res[i].product_name} || Price: ${res[i].price} || Quantity: ${res[i].stock_quantity}`);
+                    console.log(`   ID #: ${res[i].item_id} || Product: ${res[i].product_name} || Price: $${res[i].price} || Quantity: ${res[i].stock_quantity}`);
                 }
                 console.log("\n");
                 connection.end();
@@ -40,7 +40,7 @@ inquirer
                 console.log("\nProducts with Low Inventory (5 or Less):\n");
                 for (var j = 0; j < res.length; j++) {
                     if (res[j].stock_quantity < 5) {
-                        console.log(`   ID #: ${res[j].item_id} || Product: ${res[j].product_name} || Price: ${res[j].price} || Quantity: ${res[j].stock_quantity}`);
+                        console.log(`   ID #: ${res[j].item_id} || Product: ${res[j].product_name} || Price: $${res[j].price} || Quantity: ${res[j].stock_quantity}`);
                     }
                 }
                 console.log("\n");
@@ -50,7 +50,7 @@ inquirer
                     .prompt([{
                         name: "options",
                         type: "list",
-                        message: "What would you like to do?",
+                        message: "What product would you like to add to?",
                         choices: function () {
                             var optionArray = [];
                             optionArray.push(new inquirer.Separator());
@@ -105,63 +105,63 @@ inquirer
                     if (err) throw err;
                     var departments = [];
                     departments.push(new inquirer.Separator());
-                    for(var k = 0; k < res2.length; k++){
+                    for (var k = 0; k < res2.length; k++) {
                         departments.push(res2[k].department_name);
                     }
-                    
-                inquirer
-                    .prompt([{
-                        name: "insertName",
-                        type: "input",
-                        message: "Type the name of the product you wish to add:"
-                    },
-                    {
-                        name: "insertDept",
-                        type: "list",
-                        message: "Choose the department the product is under:",
-                        choices: departments
-                    },
-                    {
-                        name: "insertPrice",
-                        type: "input",
-                        message: "Type the typical price of the product:"
-                    },
-                    {
-                        name: "insertStock",
-                        type: "input",
-                        message: "Type the initial stock quantity of the product:"
-                    }
-                    ])
-                    .then(function (answer) {
-                        if (!isNaN(answer.insertName)) {
-                            console.log("Improper product name.");
-                        } else if (!isNaN(answer.insertDept)) {
-                            console.log("Improper department name.");
-                        } else if (isNaN(answer.insertPrice)) {
-                            console.log("Price must be a number.");
-                        } else if (isNaN(answer.insertStock)) {
-                            console.log("Stock quantity must be a number.");
-                        } else {
-                            connection.query("INSERT INTO products SET ?",
-                                {
-                                    product_name: answer.insertName,
-                                    department_name: answer.insertDept,
-                                    price: answer.insertPrice,
-                                    stock_quantity: answer.insertStock
-                                },
-                                function (err) {
-                                    if (err) throw err;
-                                    console.log("\nYou added the following product to the Bamazon database:");
-                                    console.log(`
+
+                    inquirer
+                        .prompt([{
+                            name: "insertName",
+                            type: "input",
+                            message: "Type the name of the product you wish to add:"
+                        },
+                        {
+                            name: "insertDept",
+                            type: "list",
+                            message: "Choose the department the product is under:",
+                            choices: departments
+                        },
+                        {
+                            name: "insertPrice",
+                            type: "input",
+                            message: "Type the typical price of the product:"
+                        },
+                        {
+                            name: "insertStock",
+                            type: "input",
+                            message: "Type the initial stock quantity of the product:"
+                        }
+                        ])
+                        .then(function (answer) {
+                            if (!isNaN(answer.insertName)) {
+                                console.log("Improper product name.");
+                            } else if (!isNaN(answer.insertDept)) {
+                                console.log("Improper department name.");
+                            } else if (isNaN(answer.insertPrice)) {
+                                console.log("Price must be a number.");
+                            } else if (isNaN(answer.insertStock)) {
+                                console.log("Stock quantity must be a number.");
+                            } else {
+                                connection.query("INSERT INTO products SET ?",
+                                    {
+                                        product_name: answer.insertName,
+                                        department_name: answer.insertDept,
+                                        price: answer.insertPrice,
+                                        stock_quantity: answer.insertStock
+                                    },
+                                    function (err) {
+                                        if (err) throw err;
+                                        console.log("\nYou added the following product to the Bamazon database:");
+                                        console.log(`
                                     Product: ${answer.insertName}
                                     Department: ${answer.insertDept}
                                     Price: ${answer.insertPrice}
                                     Stock: ${answer.insertStock}`);
-                                }
-                            )
-                        }
-                        connection.end();
-                    });
+                                    }
+                                )
+                            }
+                            connection.end();
+                        });
                 });
             }
 
