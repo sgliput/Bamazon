@@ -89,6 +89,7 @@ inquirer
                                     if (err) {
                                         console.log(err);
                                     } else {
+                                        console.log("\n");
                                         console.log(`You added ${howMuch} ${product}(s).`);
                                         connection.end();
                                     }
